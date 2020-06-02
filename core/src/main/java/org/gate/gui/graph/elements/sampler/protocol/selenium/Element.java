@@ -27,8 +27,8 @@ public class Element extends AbstractSeleniumSampler implements SeleniumConstant
 
     public Element(){
         addProp(NS_DEFAULT, PN_WaitExpectedCondition, SeleniumUtils.WaitExpectedConditionsForElements[0]);
-        addProp(NS_DEFAULT, PN_WaitTimeOut, "5");
-        addProp(NS_DEFAULT, PN_WaitPollingInterval, "200");
+        addProp(NS_DEFAULT, PN_WaitTimeOut, "");
+        addProp(NS_DEFAULT, PN_WaitPollingInterval, "");
         addProp(NS_DEFAULT, PN_LocatorType, SeleniumUtils.LocatorTypes[0]);
         addProp(NS_DEFAULT, PN_LocatorCondition, "Input Locator Conditions");
     }
@@ -44,7 +44,8 @@ public class Element extends AbstractSeleniumSampler implements SeleniumConstant
         public void run(ElementResult result) {
             WebDriver driver = getDriver(result);
             if(result.isFailure()) return;
-            FluentWait<WebDriver> wait = SeleniumUtils.getWait(driver, getRunTimeProp(NS_DEFAULT,PN_WaitTimeOut), getRunTimeProp(NS_DEFAULT, PN_WaitPollingInterval));
+            FluentWait<WebDriver> wait = SeleniumUtils.getWait(driver, getRunTimeProp(NS_DEFAULT,PN_WaitTimeOut),
+                    getRunTimeProp(NS_DEFAULT, PN_WaitPollingInterval));
             By locator = SeleniumUtils.getLocator(getRunTimeProp(NS_DEFAULT, PN_LocatorType),getRunTimeProp(NS_DEFAULT, PN_LocatorCondition));
             WebElement element = SeleniumUtils.getWebElement(wait, getRunTimeProp(NS_DEFAULT, PN_WaitExpectedCondition), locator);
             action(element, result);

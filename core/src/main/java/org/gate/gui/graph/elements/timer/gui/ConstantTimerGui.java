@@ -15,30 +15,18 @@
  * limitations under the License.
  *
  */
+package org.gate.gui.graph.elements.timer.gui;
 
-package org.gate.gui.graph.elements.asseration;
+import org.gate.gui.details.properties.graph.DefaultPropertiesGui;
+import org.gate.gui.graph.elements.timer.ConstantTimer;
 
-import org.gate.common.util.GateException;
-import org.gate.gui.details.results.elements.graph.AssertionResult;
-import org.gate.gui.details.results.elements.graph.ElementResult;
-import org.gate.gui.graph.elements.asseration.gui.TextAssertGui;
+import javax.swing.*;
 
-import org.gate.runtime.GateContextService;
+public class ConstantTimerGui extends DefaultPropertiesGui {
 
-
-public class ResponseAssert extends TextAssert {
-
+    private final static String[] timeUnits = {ConstantTimer.Seconds, ConstantTimer.Milliseconds, ConstantTimer.Minutes};
     @Override
-    String getInput() throws GateException {
-        return GateContextService.getContext().getPreviousResult().getResponseAsString();
-    }
-    @Override
-    public String getGUI(){
-	    return TextAssertGui.class.getName();
-    }
-
-    @Override
-    public String getStaticLabel() {
-        return "Response Assertion";
+    protected void updateTableEditors() {
+        defaultPropertiesTable.setComboBox(ConstantTimer.NP_TimeUnit, new JComboBox(timeUnits));
     }
 }

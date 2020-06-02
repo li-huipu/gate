@@ -18,19 +18,24 @@
 package org.gate.gui.tree.test.elements.config;
 
 import org.gate.gui.graph.elements.sampler.protocol.selenium.util.SeleniumConstantsInterface;
+import org.gate.gui.tree.test.elements.config.gui.SeleniumDefaultsGui;
 
 public class SeleniumDefaults extends DefaultsConfigElement implements SeleniumConstantsInterface {
 
     public SeleniumDefaults(){
-        addConfigProperty(PN_DriverId, "");
-        addConfigProperty(PN_BrowserName, "");
-        addConfigProperty(PN_WaitExpectedCondition, "");
-        addConfigProperty(PN_WaitPollingInterval, "");
+        addConfigProperty(PN_BrowserName, BrowserName_Chrome);
+        addConfigProperty(PN_WaitTimeOut, "5");
+        addConfigProperty(PN_WaitPollingInterval, "200");
     }
 
     @Override
     protected String getContextConfigKey(){
         return DefaultConfigName;
+    }
+
+    @Override
+    public String getGUI(){
+        return SeleniumDefaultsGui.class.getName();
     }
 
 }

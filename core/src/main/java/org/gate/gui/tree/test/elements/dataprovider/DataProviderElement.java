@@ -26,5 +26,5 @@ import java.util.List;
 
 public abstract class DataProviderElement extends TestTreeElement {
 
-    public abstract List<HashMap<String, String>> loadData() throws IOException;
+    public abstract boolean loadVars() throws Exception;
 }

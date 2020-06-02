@@ -22,8 +22,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import org.gate.common.util.CopyUtils;
 import org.gate.common.util.GateRuntimeExcepiton;
+import org.gate.common.util.GateUtils;
 import org.gate.gui.common.AbstractTestElement;
 import org.gate.gui.common.DefaultParameters;
 import org.gate.gui.details.properties.graph.DefaultPropertiesGui;
@@ -47,7 +47,6 @@ abstract public class AbstractGraphElement extends AbstractTestElement implement
     protected final static String GUI_ClassName_DefaultPropertiesGUI = DefaultPropertiesGui.class.getName();
     protected HashMap<String, LinkedList<GateProperty>> runTimePropsMap = new HashMap();
 
-    //  what's use of this? try to comment it out. remove it later.
     public AbstractGraphElement() {
         super();
     }
@@ -56,8 +55,6 @@ abstract public class AbstractGraphElement extends AbstractTestElement implement
      *   reset the GraphElement's status for engine execute. This is method each time after the cell execute completely
      * */
     public void reset() {
-        // TODO thinks about if this is needed
-        // clear each value HashMap
         runTimePropsMap.values().forEach(v -> v.clear());
         runTimePropsMap.clear();
     }
@@ -127,9 +124,8 @@ abstract public class AbstractGraphElement extends AbstractTestElement implement
     }
 
     /*
-        this need to implement by graph elements which need to load the default before process variables.
-        not all graph elements need this so this is not abstract
-        TODO if this can be optimized
+        for load before process variables. Not all graph elements need this so this is not abstract
+
      */
 
     protected HashMap<String, LinkedList<GateProperty>> getPropertiesWithDefaults() {
@@ -145,7 +141,7 @@ abstract public class AbstractGraphElement extends AbstractTestElement implement
             return getPropsMap();
         }
 
-        HashMap<String, LinkedList<GateProperty>> propsMapCopy = CopyUtils.deepCopy(getPropsMap()).get();
+        HashMap<String, LinkedList<GateProperty>> propsMapCopy = GateUtils.deepCopy(getPropsMap()).get();
         for(String nameSpace : getNameSpacesToApplyDefault()){
             defaultSeleniumParameters.applyDefaultsInNameSpace(propsMapCopy.get(nameSpace));
         }

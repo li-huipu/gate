@@ -22,16 +22,14 @@ import org.apache.logging.log4j.Logger;
 import org.gate.varfuncs.property.GateProperty;
 import org.gate.varfuncs.property.StringProperty;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Optional;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Use same data structure store parameters to keep compatible with TestElement
  */
 
-public class DefaultParameters {
+public class DefaultParameters implements Serializable {
     protected Logger log = LogManager.getLogger(this.getClass());
     protected HashMap<String, LinkedList<GateProperty>> defaultParameters = new HashMap();
 
@@ -54,18 +52,21 @@ public class DefaultParameters {
 
     public void modify(String nameSpace, LinkedList<GateProperty> parameters){
         if(!defaultParameters.containsKey(nameSpace)){
-            defaultParameters.put(nameSpace, new LinkedList<GateProperty>());
+            defaultParameters.put(nameSpace, new LinkedList<>());
         }
-
-        for(GateProperty parameter : parameters){
-            Optional<GateProperty> localParameterOptional = defaultParameters.get(nameSpace).stream().
-                    filter(p ->p.getName().equals(parameter)).findAny();
-            if(localParameterOptional.isPresent()){
-                localParameterOptional.get().setObjectValue(parameter.getStringValue());
-            }else{
-                defaultParameters.get(nameSpace).add(new StringProperty(parameter.getName(), parameter.getStringValue()));
+        LinkedList<GateProperty> newDefaultParameters = new LinkedList<>(parameters);
+        ListIterator<GateProperty> listIterator = newDefaultParameters.listIterator();
+        while(listIterator.hasNext()){
+            GateProperty newDefaultParameter = listIterator.next();
+            for(GateProperty defaultParameter : defaultParameters.get(nameSpace)){
+                if(newDefaultParameter.getName().equals(defaultParameter.getName())){
+                    defaultParameter.setObjectValue(newDefaultParameter.getStringValue());
+                    listIterator.remove();
+                }
             }
         }
+        defaultParameters.get(nameSpace).addAll(newDefaultParameters);
+        newDefaultParameters.clear();
     }
     public void applyDefaultsInNameSpace(LinkedList<GateProperty> gateProperties){
         for(GateProperty property : gateProperties){

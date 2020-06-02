@@ -44,21 +44,21 @@ public class DefaultSeleniumElementGui extends JPanel implements GraphElementPro
 
     protected Logger log = LogManager.getLogger(this.getName());
 
-    GraphNamePane namePane = new GraphNamePane("Element identifier");
+    GraphNamePane namePane = new GraphNamePane();
     PropertiesTable defaultPropertiesTable = new PropertiesTable(new PropertiesTableModel());
     PropertiesTable argumentPropertiesTable = new PropertiesTable(new PropertiesTableModel());
 //    PropertiesTable returnValueVariablesNameTable = new PropertiesTable(new PropertiesTableModel());
 
     JComboBox locatorTypeComboBox = new JComboBox(SeleniumUtils.LocatorTypes);
     JComboBox methodSuppliesComboBox = new JComboBox();
-
-
     JComboBox webElementWaitConditionComboBox = new JComboBox(SeleniumUtils.WaitExpectedConditionsForElements);
+    JComboBox browserNamesComboBox = new JComboBox(SeleniumUtils.BrowserNames);
 
     SeleniumElement seleniumElement = null;
 
     public DefaultSeleniumElementGui(){
         setLayout(new VerticalLayout());
+        browserNamesComboBox.setEditable(true);
         add(namePane);
 
         JSplitPane elementMethod = new JSplitPane();
@@ -142,5 +142,6 @@ public class DefaultSeleniumElementGui extends JPanel implements GraphElementPro
         argumentPropertiesTable.setComboBox(ConditionChecker.PN_LocatorType, locatorTypeComboBox);
         defaultPropertiesTable.setComboBox(PN_WaitExpectedCondition, webElementWaitConditionComboBox);
         argumentPropertiesTable.setComboBox(SeleniumUtils.PN_WaitExpectedCondition, webElementWaitConditionComboBox);
+        argumentPropertiesTable.setComboBox(SeleniumUtils.PN_BrowserName, browserNamesComboBox);
     }
 }

@@ -15,27 +15,16 @@
  * limitations under the License.
  *
  */
+package org.gate.gui.tree.test.elements.config.gui;
 
-package org.gate.gui.details.properties;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.gate.gui.details.properties.tree.DefaultPropertiesGui;
+import org.gate.gui.graph.elements.sampler.protocol.selenium.util.SeleniumConstantsInterface;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class PropertiesPane extends JPanel {
-    Logger log = LogManager.getLogger();
-
-    public PropertiesPane() {
-        setLayout(new GridLayout(1, 1));
-        PropertiesTableModel propertiesTableModel = new PropertiesTableModel();
-    }
-
-    public void setComponent(JComponent component) {
-        removeAll();
-        add(component, BorderLayout.CENTER);
-        // Update properties panel when click on the element
-        updateUI();
+public class SeleniumDefaultsGui extends DefaultPropertiesGui implements SeleniumConstantsInterface {
+    @Override
+    protected void updateTableEditors() {
+        defaultPropertiesTable.setComboBox(PN_BrowserName, new JComboBox(BrowserNames));
     }
 }
